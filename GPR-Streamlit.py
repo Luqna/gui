@@ -154,36 +154,183 @@ def create_input_section(container, prefix):
         return np.mean(questions)
 
 def show_home_page():
-    st.title('Welcome to Customer Loyalty Predictor')
-    st.write("")
+    # Header Section with Title and Description
+    st.set_page_config(page_title="Customer Loyalty Predictor", layout="wide")
     
+    # Custom CSS for better styling and centering
     st.markdown("""
-    ### About This Tool
-    The Customer Loyalty Predictor helps you understand and predict customer loyalty levels based on three key factors:
-
-    1. **Service Quality** 
-       - Driver Quality
-       - UI Experience
-       - Vehicle Quality
-
-    2. **Price** 
-       - Affordability
-       - Price Transparency
-       - Overall Satisfaction
-
-    3. **Innovation** 
-       - Service Development
-       - Ease of Use
-       - Response Time
-    """)
+        <style>
+        .main-header {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1em;
+            color: #1E88E5;
+        }
+        .sub-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #424242;
+            text-align: center;
+            margin-top: 2em;
+        }
+        .card {
+            padding: 1.5em;
+            border-radius: 8px;
+            margin: 1.5em auto;
+            background-color: #f8f9fa;
+            border-left: 5px solid #1E88E5;
+            max-width: 900px;
+        }
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2em;
+        }
+        .section-content {
+            text-align: center;
+            padding: 1em;
+        }
+        .feature-card {
+            background-color: #ffffff;
+            padding: 1.5em;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: 100%;
+            text-align: center;
+        }
+        </style>
+    """, unsafe_allow_html=True)
     
-    st.write("")
-    st.write("")
-
-    col1, col2, col3 = st.columns([1,1,1])
+    # Content Container
+    st.markdown('<div class="content-container">', unsafe_allow_html=True)
+    
+    # Main Header
+    st.markdown('<p class="main-header">🎯 Customer Loyalty Predictor</p>', unsafe_allow_html=True)
+    
+    # Introduction
+    st.markdown("""
+        <div class="card">
+        <p style='font-size: 1.2em; text-align: center;'>
+        Welcome to our advanced Customer Loyalty Prediction tool! Make data-driven decisions 
+        by analyzing key metrics that influence customer satisfaction and loyalty.
+        </p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Add some spacing
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Key Features Section
+    st.markdown('<p class="sub-header">🔑 Key Features</p>', unsafe_allow_html=True)
+    
+    # Create columns with padding
+    col1, padding1, col2, padding2, col3 = st.columns([1, 0.2, 1, 0.2, 1])
+    
+    with col1:
+        st.markdown("""
+            <div class="feature-card">
+            <h3>📊 Service Quality</h3>
+            <p>Evaluate core service metrics:</p>
+            <ul style="text-align: left;">
+                <li>Driver Performance</li>
+                <li>User Interface Experience</li>
+                <li>Vehicle Standards</li>
+            </ul>
+            </div>
+            """, unsafe_allow_html=True)
+            
     with col2:
-        if st.button('Start Prediction', use_container_width=True):
+        st.markdown("""
+            <div class="feature-card">
+            <h3>💰 Price Analysis</h3>
+            <p>Assess pricing strategy through:</p>
+            <ul style="text-align: left;">
+                <li>Cost Effectiveness</li>
+                <li>Price Transparency</li>
+                <li>Value Satisfaction</li>
+            </ul>
+            </div>
+            """, unsafe_allow_html=True)
+            
+    with col3:
+        st.markdown("""
+            <div class="feature-card">
+            <h3>💡 Innovation Impact</h3>
+            <p>Measure innovation success via:</p>
+            <ul style="text-align: left;">
+                <li>Service Development</li>
+                <li>User Experience</li>
+                <li>System Performance</li>
+            </ul>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    # How It Works Section
+    st.markdown('<p class="sub-header">🔄 How It Works</p>', unsafe_allow_html=True)
+    st.markdown("""
+        <div class="card">
+        <div style="text-align: center;">
+            <ol style="display: inline-block; text-align: left;">
+                <li><strong>Input Your Metrics:</strong> Rate each component on a scale of 0-10</li>
+                <li><strong>Get Instant Analysis:</strong> Receive real-time loyalty predictions</li>
+                <li><strong>View Detailed Insights:</strong> Access comprehensive recommendations</li>
+                <li><strong>Track Progress:</strong> Monitor improvements over time</li>
+            </ol>
+        </div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Benefits Section
+    st.markdown('<p class="sub-header">✨ Benefits</p>', unsafe_allow_html=True)
+    
+    col1, padding, col2 = st.columns([1, 0.2, 1])
+    
+    with col1:
+        st.markdown("""
+            <div class="feature-card">
+            <h3>For Business</h3>
+            <ul style="text-align: left;">
+                <li>Data-driven decision making</li>
+                <li>Clear improvement areas</li>
+                <li>Competitive advantage insights</li>
+                <li>Customer retention strategies</li>
+            </ul>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+            <div class="feature-card">
+            <h3>For Customers</h3>
+            <ul style="text-align: left;">
+                <li>Enhanced service quality</li>
+                <li>Better value proposition</li>
+                <li>Improved user experience</li>
+                <li>Innovative solutions</li>
+            </ul>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    # Add some spacing
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    
+    # Call to Action
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        if st.button('🚀 Start Prediction', use_container_width=True):
             st.session_state.page = 'prediction'
+    
+    # Footer
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("""
+        <div style='text-align: center; color: #666; padding: 20px;'>
+        <p>Made with ❤️ for better customer experiences</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Close content container
+    st.markdown('</div>', unsafe_allow_html=True)
 
 def prediction_page():
     st.title('Customer Loyalty Prediction')
