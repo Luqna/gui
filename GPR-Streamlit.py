@@ -515,7 +515,7 @@ def show_home_page():
             <h3>💰 Price Analysis</h3>
             <p>Assess pricing strategy through:</p>
             <ul style="text-align: left;">
-                <li>Cost Effectiveness</li>
+                <li>Cost Affordability</li>
                 <li>Price Transparency</li>
                 <li>Value Satisfaction</li>
             </ul>
@@ -544,7 +544,6 @@ def show_home_page():
                 <li><strong>Input Your Metrics:</strong> Rate each component on a scale of 0-10</li>
                 <li><strong>Get Instant Analysis:</strong> Receive real-time loyalty predictions</li>
                 <li><strong>View Detailed Insights:</strong> Access comprehensive recommendations</li>
-                <li><strong>Track Progress:</strong> Monitor improvements over time</li>
             </ol>
         </div>
         </div>
@@ -602,7 +601,7 @@ def show_home_page():
     st.markdown('</div>', unsafe_allow_html=True)
 
 def prediction_page():
-    st.title('🪄 LOYALITY CUSTOMER PREDICTIOR')
+    st.title('🪄 LOYALITY CUSTOMER PREDICTOR')
     
     if st.button('← Back to Home'):
         st.session_state.page = 'home'
@@ -729,7 +728,16 @@ def prediction_page():
             st.markdown("### 📊 Model Performance")
             st.markdown("**Mean Absolute Percentage Error (MAPE)**")
             for kernel_name, mape in mape_values.items():
-                st.write(f"- {kernel_name}: {mape:.2f}%")
+                st.markdown(
+                    f"""
+                    <div style="background-color: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-bottom: 15px;">
+                        <h5 style="color: #4CAF50; font-family: 'Arial', sans-serif; font-weight: 600;">Prediction Error for <span style="color: #007BFF;">{kernel_name}</span></h5>
+                        <p style="font-size: 18px; color: #333333; font-family: 'Arial', sans-serif;">
+                            <strong style="font-size: 20px; color: #FF5722;">MAPE: {mape:.2f}%</strong>
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
             
             # Get individual scores and continue with existing visualization code
             sq_scores = [float(st.session_state.sq_1),
