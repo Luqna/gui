@@ -135,35 +135,103 @@ def get_detailed_insights(sq_scores, p_scores, i_scores, category_scores):
     
     return insights
 
-def create_radar_plot(sq_scores, p_scores, i_scores):
-    categories = ['Driver Quality', 'UI Experience', 'Vehicle Quality',
-                 'Affordability', 'Price Transparency', 'Price Satisfaction',
-                 'Service Development', 'Ease of Use', 'Response Time']
+def create_detailed_radar_plot(sq_scores, p_scores, i_scores, prediction):
+    # Define all metrics and their values
+    categories = [
+        'Driver Quality', 'UI Experience', 'Vehicle Quality',
+        'Affordability', 'Price Transparency', 'Price Satisfaction',
+        'Service Development', 'Ease of Use', 'Response Time'
+    ]
     
-    values = sq_scores + p_scores + i_scores + [sq_scores[0]]  # Add first value to close the loop
-    categories = categories + [categories[0]]  # Add first category to close the loop
+    # Combine all scores
+    values = sq_scores + p_scores + i_scores
     
+    # Add first value and category to close the loop
+    categories = categories + [categories[0]]
+    values = values + [values[0]]
+    
+    # Create figure
     fig = go.Figure()
     
+    # Add the detailed metrics trace
     fig.add_trace(go.Scatterpolar(
         r=values,
         theta=categories,
         fill='toself',
-        name='Metrics',
-        line_color='#1f77b4',
-        fillcolor='rgba(31, 119, 180, 0.5)'
+        name='Detailed Metrics',
+        line=dict(color='#1f77b4', width=2),
+        fillcolor='rgba(31, 119, 180, 0.3)'
     ))
     
+    # Calculate and add mean values trace
+    mean_sq = sum(sq_scores) / len(sq_scores)
+    mean_price = sum(p_scores) / len(p_scores)
+    mean_innovation = sum(i_scores) / len(i_scores)
+    
+    mean_values = [mean_sq] * 3 + [mean_price] * 3 + [mean_innovation] * 3
+    mean_values = mean_values + [mean_values[0]]  # Close the loop
+    
+    fig.add_trace(go.Scatterpolar(
+        r=mean_values,
+        theta=categories,
+        name='Category Averages',
+        line=dict(color='#ff7f0e', width=2, dash='dash'),
+        fillcolor='rgba(255, 127, 14, 0.1)',
+        fill='none'
+    ))
+    
+    # Add overall loyalty prediction trace
+    loyalty_values = [prediction] * len(categories)
+    
+    fig.add_trace(go.Scatterpolar(
+        r=loyalty_values,
+        theta=categories,
+        name='Overall Loyalty Score',
+        line=dict(color='#2ca02c', width=2, dash='dot'),
+        fillcolor='rgba(44, 160, 44, 0.1)',
+        fill='none'
+    ))
+    
+    # Update layout with improved styling
     fig.update_layout(
         polar=dict(
             radialaxis=dict(
                 visible=True,
-                range=[0, 10]
-            )
+                range=[0, 10],
+                tickfont=dict(size=10),
+                gridcolor='rgba(0,0,0,0.1)',
+                linecolor='rgba(0,0,0,0.1)'
+            ),
+            angularaxis=dict(
+                tickfont=dict(size=10),
+                gridcolor='rgba(0,0,0,0.1)',
+                linecolor='rgba(0,0,0,0.1)'
+            ),
+            bgcolor='rgba(255,255,255,0.8)'
         ),
-        showlegend=False,
-        title="Detailed Metrics Analysis"
+        showlegend=True,
+        legend=dict(
+            x=1.1,
+            y=0.5,
+            bordercolor='rgba(0,0,0,0.1)',
+            borderwidth=1
+        ),
+        title=dict(
+            text="Detailed Performance Analysis",
+            x=0.5,
+            y=0.95,
+            font=dict(size=16)
+        ),
+        margin=dict(t=100, b=50, l=50, r=150)
     )
+    
+    # Add annotations for category groups
+    annotations = [
+        dict(text="Service Quality", x=0.5, y=1.2, showarrow=False, font=dict(size=12, color='#1f77b4')),
+        dict(text="Price", x=-1.2, y=0.3, showarrow=False, font=dict(size=12, color='#ff7f0e')),
+        dict(text="Innovation", x=1.2, y=-0.3, showarrow=False, font=dict(size=12, color='#2ca02c'))
+    ]
+    fig.update_layout(annotations=annotations)
     
     return fig
 
@@ -344,43 +412,10 @@ def show_prediction_results(prediction, service_quality, price, innovation, sq_s
         st.plotly_chart(fig_gauge, use_container_width=True)
         
     with tab2:
-        # Create 4-dimension radar plot
-        categories = ['Customer Loyalty', 'Service Quality', 'Price', 'Innovation']
-        values = [prediction, service_quality, price, innovation]
+        # Create enhanced radar plot
+        fig_radar = create_detailed_radar_plot(sq_scores, p_scores, i_scores, prediction)
+        st.plotly_chart(fig_radar, use_container_width=True, key="radar_chart")
         
-        fig_radar = go.Figure()
-        
-        fig_radar.add_trace(go.Scatterpolar(
-            r=values,
-            theta=categories,
-            fill='toself',
-            name='Current Metrics',
-            line_color=loyalty_info['color'],
-            fillcolor=f"rgba({','.join(['31', '119', '180', '0.3'])})"
-        ))
-        
-        # Add a reference line for comparison
-        # reference_values = [7.5, 7.5, 7.5, 7.5]  # Example reference values
-        # fig_radar.add_trace(go.Scatterpolar(
-        #     r=reference_values,
-        #     theta=categories,
-        #     name='Target',
-        #     line=dict(color='rgba(255, 0, 0, 0.5)', dash='dash'),
-        #     fill='none'
-        # ))
-        
-        fig_radar.update_layout(
-            polar=dict(
-                radialaxis=dict(
-                    visible=True,
-                    range=[0, 10]
-                )
-            ),
-            showlegend=True,
-            title="Performance Radar Chart"
-        )
-        
-        st.plotly_chart(fig_radar, use_container_width=True)
         # Show insights
         st.markdown("## 💡 Key Insights")
         scores = {
