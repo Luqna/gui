@@ -243,21 +243,21 @@ def create_input_section(container, prefix):
         
         if prefix == 'Service Quality':
             metrics = [
-                ('Driver Quality', 'sq_1'),
-                ('UI Experience', 'sq_2'),
-                ('Vehicle Quality', 'sq_3')
+                ('How much do you rate the quality of the driver in terms of various aspects (speed, comfort, safety, etc.)?', 'sq_1'),
+                ('How easy is the user interface (UI) of the online motorcycle taxi application you use?', 'sq_2'),
+                ('How do you rate the cleanliness, suitability, and comfort of the vehicles used when using online motorcycle taxi services?', 'sq_3')
             ]
         elif prefix == 'Price':
             metrics = [
-                ('Affordability', 'p_1'),
-                ('Price Transparency', 'p_2'),
-                ('Overall Satisfaction', 'p_3')
+                ('What do you think about the relationship between the prices charged by online motorcycle taxi platforms and the distance traveled?', 'p_1'),
+                ('How do you assess the transparency of price information in online motorcycle taxi applications, especially regarding travel distance and time?', 'p_2'),
+                ('How do you assess the existence and benefits of discounts and promotions offered by the online motorcycle taxi platform you use?', 'p_3')
             ]
         else:  # Innovation
             metrics = [
-                ('Service Development', 'i_1'),
-                ('Ease of Use', 'i_2'),
-                ('Response Time', 'i_3')
+                ('What do you think about the development of new services offered by the online motorcycle taxi platform you use?', 'i_1'),
+                ('How is your experience in using new features or innovations offered by online motorcycle taxi applications?', 'i_2'),
+                ('What do you think about the effectiveness of the implementation of innovation by the online motorcycle taxi platform you use?', 'i_3')
             ]
 
         for metric_name, key in metrics:
